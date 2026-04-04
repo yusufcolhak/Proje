@@ -1,0 +1,129 @@
+USE [SporSalonu]
+GO
+
+/****** Object:  Table [dbo].[UyelikPaketleri] ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UyelikPaketleri](
+	[PaketID] [int] NOT NULL,
+	[PaketAdi] [nvarchar](30) NULL,
+	[Sure] [int] NULL,
+	[Ucret] [decimal](10, 2) NULL,
+PRIMARY KEY CLUSTERED (
+	[PaketID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+/****** Object:  Table [dbo].[Uyeler] ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Uyeler](
+	[UyeID] [int] NOT NULL,
+	[Ad] [nvarchar](20) NULL,
+	[Soyad] [nvarchar](20) NULL,
+	[MailHesabı] [nvarchar](30) NULL,
+	[TelefonNumarası] [nvarchar](20) NULL,
+	[KayıtTarihi] [nvarchar](20) NULL,
+	[PaketID] [int] NULL,
+PRIMARY KEY CLUSTERED (
+	[UyeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Uyeler] WITH CHECK ADD FOREIGN KEY([PaketID])
+REFERENCES [dbo].[UyelikPaketleri] ([PaketID])
+GO
+
+
+/****** Object:  Table [dbo].[Egitmenler] ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Egitmenler](
+	[EgitmenID] [int] NOT NULL,
+	[Adı] [nvarchar](20) NULL,
+	[Soyadı] [nvarchar](20) NULL,
+	[UzmanlıkAlanı] [nvarchar](50) NULL,
+	[TelefonNumarası] [nvarchar](20) NULL,
+PRIMARY KEY CLUSTERED (
+	[EgitmenID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+/****** Object:  Table [dbo].[Dersler] ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Dersler](
+	[DersID] [int] NOT NULL,
+	[DersAdı] [nvarchar](20) NULL,
+	[DersSaati] [nvarchar](20) NULL,
+	[Kontenjan] [nvarchar](20) NULL,
+	[EgitmenID] [int] NULL,
+PRIMARY KEY CLUSTERED (
+	[DersID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Dersler] WITH CHECK ADD FOREIGN KEY([EgitmenID])
+REFERENCES [dbo].[Egitmenler] ([EgitmenID])
+GO
+
+
+/****** Object:  Table [dbo].[KatilimKayitlari] ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[KatilimKayitlari](
+	[KatilimID] [int] NOT NULL,
+	[KatilimTarihi] [nvarchar](20) NULL,
+	[UyeID] [int] NULL,
+	[DersID] [int] NULL,
+PRIMARY KEY CLUSTERED (
+	[KatilimID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[KatilimKayitlari] WITH CHECK ADD FOREIGN KEY([DersID])
+REFERENCES [dbo].[Dersler] ([DersID])
+GO
+
+ALTER TABLE [dbo].[KatilimKayitlari] WITH CHECK ADD FOREIGN KEY([UyeID])
+REFERENCES [dbo].[Uyeler] ([UyeID])
+GO
+
+
+/****** Object:  Table [dbo].[Odemeler] ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Odemeler](
+	[OdemeID] [int] NOT NULL,
+	[Miktar] [decimal](10, 2) NULL,
+	[OdemeTarihi] [nvarchar](10) NULL,
+	[OdemeTipi] [nvarchar](10) NULL,
+	[UyeID] [int] NULL,
+PRIMARY KEY CLUSTERED (
+	[OdemeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Odemeler] WITH CHECK ADD FOREIGN KEY([UyeID])
+REFERENCES [dbo].[Uyeler] ([UyeID])
+GO
