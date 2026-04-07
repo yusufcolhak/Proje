@@ -1,0 +1,11 @@
+DELETE FROM Dersler;
+DBCC CHECKIDENT ('Dersler', RESEED, 0);
+ 
+DELETE FROM Egitmenler;
+DBCC CHECKIDENT ('Egitmenler', RESEED, 0);
+
+DELETE FROM Uyeler;
+DBCC CHECKIDENT ('Uyeler', RESEED, 0);
+
+DELETE FROM UyelikPaketleri
+DBCC CHECKIDENT ('UyelikPaketleri', RESEED, 0);
