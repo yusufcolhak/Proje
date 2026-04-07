@@ -1,11 +1,11 @@
 INSERT INTO Egitmenler (Ad, Soyad, UzmanlikAlani, TelefonNumarasi) 
 VALUES 
-('Ahmet', 'Yılmaz', 'Fitness ve Vücut Geliştirme', '05551112233'),
-('Ayşe', 'Kaya', 'Yoga ve Meditasyon', '05552223344'),
-('Mehmet', 'Demir', 'Crossfit ve Fonksiyonel Antrenman', '05553334455'),
-('Fatma', 'Çelik', 'Pilates ve Postür Düzeltme', '05554445566'),
-('Mustafa', 'Yıldız', 'Boks ve Kickboks', '05555556677'),
-('Zeynep', 'Aydın', 'Zumba ve Dans', '05556667788'),
+('Yusuf', 'Çolhak', 'Fitness ve Vücut Geliştirme', '05551112233'),
+('Ahmet', 'Bayrakoğlu', 'Yoga ve Meditasyon', '05552223344'),
+('Bahadır', 'Türkmen', 'Crossfit ve Fonksiyonel Antrenman', '05553334455'),
+('Sena', 'Ünal', 'Pilates ve Postür Düzeltme', '05554445566'),
+('İkra', 'Çay', 'Boks ve Kickboks', '05555556677'),
+('Zehra', 'Sakızlı', 'Zumba ve Dans', '05556667788'),
 ('Ali', 'Öztürk', 'Yüzme Teknikleri', '05557778899'),
 ('Hülya', 'Arslan', 'Beslenme ve Diyetetik', '05558889900'),
 ('Can', 'Polat', 'Kardiyo ve Yağ Yakımı', '05559990011'),
