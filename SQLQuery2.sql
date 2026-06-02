@@ -8,7 +8,7 @@ CREATE TABLE Uyeler (
     TelefonNumarasi NVARCHAR(15),
     KayitTarihi DATE DEFAULT GETDATE(), -- Kayıt Tarihi [cite: 11]
     FOREIGN KEY (PaketID) REFERENCES UyelikPaketleri(PaketID) -- İlişki 
-);
+)
 
 -- Dersler Tablosu
 CREATE TABLE Dersler (
@@ -18,7 +18,7 @@ CREATE TABLE Dersler (
     DersSaati TIME,
     Kontenjan INT,
     FOREIGN KEY (EgitmenID) REFERENCES Egitmenler(EgitmenID) -- İlişki 
-);
+)
 
 -- Ödemeler Tablosu
 CREATE TABLE Odemeler (
@@ -28,7 +28,7 @@ CREATE TABLE Odemeler (
     OdemeTarihi DATE DEFAULT GETDATE(), -- Ödeme Tarihi [cite: 11]
     OdemeTipi NVARCHAR(30),
     FOREIGN KEY (UyeID) REFERENCES Uyeler(UyeID) -- İlişki 
-);
+)
 
 -- Katılım Kayıtları Tablosu
 CREATE TABLE KatilimKayitlari (
@@ -38,4 +38,4 @@ CREATE TABLE KatilimKayitlari (
     KatilimTarihi DATE DEFAULT GETDATE(), -- Katılım Tarihi [cite: 11]
     FOREIGN KEY (UyeID) REFERENCES Uyeler(UyeID), -- İlişki 
     FOREIGN KEY (DersID) REFERENCES Dersler(DersID) -- İlişki 
-);
+)
