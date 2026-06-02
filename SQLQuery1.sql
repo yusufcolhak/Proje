@@ -4,7 +4,7 @@ CREATE TABLE UyelikPaketleri (
     PaketAdi NVARCHAR(50),
     Sure NVARCHAR(20),
     Ucret DECIMAL(10,2) -- Ücret sütunu [cite: 11]
-);
+)
 
 -- Eğitmenler Tablosu
 CREATE TABLE Egitmenler (
@@ -13,4 +13,4 @@ CREATE TABLE Egitmenler (
     Soyad NVARCHAR(50),
     UzmanlikAlani NVARCHAR(100),
     TelefonNumarasi NVARCHAR(15)
-);
+)
