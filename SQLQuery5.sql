@@ -29,4 +29,4 @@ VALUES
 ('Mert', 'Yalçın', 'Triatlon Koçluğu', '05557770000'),
 ('Seda', 'Koç', 'Pilates Reformer', '05558880000'),
 ('Kaan', 'Bilgin', 'Vücut Ağırlığı Antrenmanı', '05559990000'),
-('Elif', 'Ada', 'Klinik Pilates', '05550000000');
+('Elif', 'Ada', 'Klinik Pilates', '05550000000')
