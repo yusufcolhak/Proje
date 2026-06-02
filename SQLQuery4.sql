@@ -31,4 +31,4 @@ VALUES
 ('Zumba Özel', '1 Ay', 600.00),
 ('Fonksiyonel Antrenman', '1 Ay', 950.00),
 ('Premium Spa Dahil', '1 Ay', 1800.00),
-('Sınırsız Platinum+', '12 Ay', 6500.00);
+('Sınırsız Platinum+', '12 Ay', 6500.00)
