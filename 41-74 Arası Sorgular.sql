@@ -141,12 +141,11 @@ SELECT u.Ad AS 'Uye', d.DersAdi, e.Ad AS 'Egitmen', e.UzmanlikAlani
 FROM Uyeler u
 INNER JOIN KatilimKayitlari k ON u.UyeID = k.UyeID
 INNER JOIN Dersler d ON k.DersID = d.DersID
-INNER JOIN Egitmenler e ON d.EgitmenID = e.EgitmenID;
+INNER JOIN Egitmenler e ON d.EgitmenID = e.EgitmenID
 
 -- 34. LEFT JOIN VE ALIAS: Müşteri/Sipariş mantığıyla, tüm üyeleri ve eğer varsa ödemelerini (ödemesi olmayanları NULL ile) getirme.
 SELECT u.Ad, u.Soyad, o.Miktar, o.OdemeTarihi
 FROM Uyeler as u
 LEFT JOIN Odemeler as o 
-ON u.UyeID = o.UyeID;
+ON u.UyeID = o.UyeID
 
-GO
