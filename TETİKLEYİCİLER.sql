@@ -29,9 +29,6 @@ GO
 
 
 
-USE [SporSalonu]
-GO
-
 CREATE TRIGGER trg_KayitIptal_KontenjanIade
 ON KatilimKayitlari
 AFTER DELETE
@@ -47,9 +44,6 @@ END
 GO
 
 
-
-USE [SporSalonu]
-GO
 
 CREATE TRIGGER trg_CiftDolapEngeli
 ON Dolaplar
