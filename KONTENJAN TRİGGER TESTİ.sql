@@ -1,5 +1,5 @@
 USE [SporSalonu]
-GO
+
 
 -- ADIM 1: MEVCUT DURUMU GÖSTERME
 -- öncelikle 1 numaralı dersimizin güncel kontenjanına bakalım:
