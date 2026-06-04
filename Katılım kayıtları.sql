@@ -1,4 +1,4 @@
-USE SporSalonu
+
 
 INSERT INTO KatilimKayitlari (KatilimTarihi, UyeID, DersID)
 VALUES 
@@ -30,4 +30,4 @@ VALUES
 ('2026-04-14', 27, 27), 
 ('2026-04-14', 28, 28), 
 ('2026-04-15', 29, 29), 
-('2026-04-15', 30, 30); 
+('2026-04-15', 30, 30)
