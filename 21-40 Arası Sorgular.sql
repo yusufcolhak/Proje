@@ -1,5 +1,5 @@
 USE [SporSalonu]
-GO
+
 
 -- 21. LEFT JOIN: Tüm üyeleri ve varsa ödemelerini listeler. Hiç ödeme yapmayanları NULL olarak gösterir.
 SELECT U.Ad, U.Soyad, O.Miktar, O.OdemeTarihi 
