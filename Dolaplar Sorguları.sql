@@ -1,8 +1,8 @@
 USE [SporSalonu]
-GO
+
 
 --  Tüm dolap tahsis kayıtlarını getirir.
-SELECT * FROM Dolaplar;
+SELECT * FROM Dolaplar
 
 --  Şu an kullanımda olan (tahsis edilmiş) toplam dolap sayısını verir.
 SELECT COUNT(*) AS 'Tahsis Edilen Dolap Sayisi' 
@@ -42,4 +42,4 @@ INNER JOIN Uyeler U ON D.UyeID = U.UyeID
 SELECT D.DolapNo, U.Ad, U.Soyad, U.TelefonNumarasi
 FROM Dolaplar D
 INNER JOIN Uyeler U ON D.UyeID = U.UyeID
-GO
+
