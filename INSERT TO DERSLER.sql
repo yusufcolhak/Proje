@@ -29,4 +29,4 @@ VALUES
 (27, 'Triatlon Geçiş Antrenmanı', '06:30:00', 10),
 (28, 'Grup Reformer Pilates', '10:00:00', 6),
 (29, 'Calisthenics (Vücut Ağırlığı) Temelleri', '18:00:00', 15),
-(30, 'Klinik Pilates ve Bel-Boyun Sağlığı', '14:30:00', 10);
+(30, 'Klinik Pilates ve Bel-Boyun Sağlığı', '14:30:00', 10)
