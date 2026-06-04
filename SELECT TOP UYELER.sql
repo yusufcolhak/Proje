@@ -1,8 +1,0 @@
-SELECT TOP (1000) [UyeID]
-      ,[PaketID]
-      ,[Ad]
-      ,[Soyad]
-      ,[MailHesabi]
-      ,[TelefonNumarasi]
-      ,[KayitTarihi]
-  FROM [SporSalonu].[dbo].[Uyeler]
