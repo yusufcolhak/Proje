@@ -1,4 +1,4 @@
-USE [SporSalonu]
+
 
 
 -- ADIM 1: MEVCUT DURUMU GÖSTERME
