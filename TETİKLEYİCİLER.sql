@@ -1,5 +1,4 @@
-USE [SporSalonu]
-GO
+
 
 CREATE TRIGGER trg_DerseKayit_KontenjanKontrol
 ON KatilimKayitlari
