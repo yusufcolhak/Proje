@@ -29,4 +29,4 @@ VALUES
 (27, 'Hakan', 'Bozkurt', 'hakan.bozkurt@gmail.com', '05347778899', '2026-03-20'),
 (28, 'Gizem', 'Avcı', 'gizem.avci@gmail.com', '05358889900', '2026-03-25'),
 (29, 'Ozan', 'Tekin', 'ozan.tekin@gmail.com', '05369990011', '2026-04-01'),
-(30, 'Gül', 'Aktaş', 'gul.aktas@gmail.com', '05370001122', '2026-04-05');
+(30, 'Gül', 'Aktaş', 'gul.aktas@gmail.com', '05370001122', '2026-04-05')
