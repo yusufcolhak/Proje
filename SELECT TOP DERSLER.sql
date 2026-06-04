@@ -1,6 +1,0 @@
-SELECT TOP (1000) [DersID]
-      ,[EgitmenID]
-      ,[DersAdi]
-      ,[DersSaati]
-      ,[Kontenjan]
-  FROM [SporSalonu].[dbo].[Dersler]
