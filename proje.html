@@ -1,0 +1,637 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABYGYM SQL Veritabanı Proje Raporu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .code-block { background: #1e1e2e; color: #cdd6f4; font-family: 'Consolas', monospace; }
+
+        /* GitHub Banner Animasyonları */
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        @keyframes pulse-ring {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.08); opacity: 1; }
+        }
+        @keyframes float-up {
+            0% { transform: translateY(6px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        .github-shimmer {
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899, #6366f1);
+            background-size: 300% auto;
+            animation: shimmer 4s linear infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .github-card:hover .github-icon-ring {
+            animation: pulse-ring 1s ease-in-out infinite;
+        }
+        .github-badge {
+            animation: float-up 0.6s ease forwards;
+        }
+        .github-link-btn {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%);
+            border: 1px solid rgba(99,102,241,0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .github-link-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+            transition: left 0.5s ease;
+        }
+        .github-link-btn:hover::before { left: 100%; }
+        .github-link-btn:hover {
+            border-color: rgba(99,102,241,0.8);
+            box-shadow: 0 0 24px rgba(99,102,241,0.3), 0 4px 20px rgba(0,0,0,0.5);
+            transform: translateY(-2px);
+        }
+        .stat-chip {
+            background: rgba(30, 27, 75, 0.6);
+            border: 1px solid rgba(99,102,241,0.2);
+            backdrop-filter: blur(4px);
+        }
+        .corner-decoration {
+            background: conic-gradient(from 180deg at 50% 50%, #6366f1 0deg, #a855f7 120deg, #ec4899 240deg, #6366f1 360deg);
+            opacity: 0.12;
+            filter: blur(40px);
+        }
+    </style>
+</head>
+<body class="bg-[#0f172a] text-slate-200 antialiased">
+
+    <nav class="sticky top-0 z-50 bg-[#0f172a]/80 backdrop-blur-md border-b border-slate-800 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <div class="bg-indigo-600 p-2 rounded-lg text-white">
+                <i class="fa-solid fa-database text-xl"></i>
+            </div>
+            <span class="text-xl font-bold tracking-wider text-white">ABYGYM <span class="text-indigo-500">DB</span></span>
+        </div>
+        <div class="hidden md:flex space-x-4 text-xs font-medium text-slate-400">
+            <a href="#amac" class="hover:text-indigo-400 transition">Özellikler & Amaç</a>
+            <a href="#neyapabilir" class="hover:text-indigo-400 transition">Ne Yapabiliyor?</a>
+            <a href="#tablolar" class="hover:text-indigo-400 transition">Tablo Sözlüğü</a>
+            <a href="#mimari" class="hover:text-indigo-400 transition">Veri Mimarisi</a>
+            <a href="#timeline" class="hover:text-indigo-400 transition">Geliştirme Günlüğü</a>
+            <a href="#ekip" class="hover:text-indigo-400 transition">Emeği Geçenler</a>
+            <a href="#github" class="hover:text-indigo-400 transition text-indigo-400 font-semibold">GitHub</a>
+        </div>
+    </nav>
+
+    <header class="relative overflow-hidden py-20 px-6 text-center border-b border-slate-800 bg-gradient-to-b from-indigo-950/20 to-transparent">
+        <div class="max-w-4xl mx-auto">
+            <span class="px-3 py-1 text-xs font-semibold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 rounded-full uppercase tracking-wider">MS SQL SERVER VERİTABANI ÖDEVİ</span>
+            <h1 class="text-3xl md:text-5xl font-extrabold text-white mt-4 tracking-tight leading-tight">
+                ABYGYM: Spor Salonu Yönetim Sistemi <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Veritabanı Proje Raporu</span>
+            </h1>
+        </div>
+    </header>
+
+    <section id="amac" class="py-16 px-6 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        <div>
+            <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                <i class="fa-solid fa-star text-indigo-500 mr-3"></i> Projenin Özellikleri ve Kapsamı
+            </h2>
+            <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                Bu çalışma, modern ve yoğun ölçekli bir spor salonunun tüm operasyonel süreçlerini (üye kayıtları, seans yoklamaları, finansal tahsilatlar, envanter yönetimi ve gelişim takibi) ilişkisel veri tabanı kurallarına uygun olarak merkezi bir sistemde toplamak amacıyla geliştirilmiştir.
+            </p>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/50">
+                <i class="fa-solid fa-users text-xl text-indigo-400 mb-2"></i>
+                <h3 class="font-semibold text-sm text-white">Merkezi Üye Yapısı</h3>
+                <p class="text-[11px] text-slate-400 mt-1">Ölçüm, ödeme, yoklama ve dolap verileri tek bir merkez ID üzerinden yönetilir.</p>
+            </div>
+            <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/50">
+                <i class="fa-solid fa-shield-halved text-xl text-purple-400 mb-2"></i>
+                <h3 class="font-semibold text-sm text-white">Referans Bütünlüğü</h3>
+                <p class="text-[11px] text-slate-400 mt-1">Foreign Key kısıtlamaları ile veri kayıpları ve hatalı girişler engellenmiştir.</p>
+            </div>
+            <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/50">
+                <i class="fa-solid fa-chart-line text-xl text-emerald-400 mb-2"></i>
+                <h3 class="font-semibold text-sm text-white">Karar Destek Sistemi</h3>
+                <p class="text-[11px] text-slate-400 mt-1">Yönetim için doluluk oranları, finansal akış ve dolap analizleri sunulur.</p>
+            </div>
+            <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/50">
+                <i class="fa-solid fa-boxes-stacked text-xl text-amber-400 mb-2"></i>
+                <h3 class="font-semibold text-sm text-white">Envanter Kontrolü</h3>
+                <p class="text-[11px] text-slate-400 mt-1">Demirbaş takibi, cihaz adetleri ve arıza durumları anlık izlenir.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="neyapabilir" class="py-16 bg-slate-900/30 border-t border-slate-800 px-6">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                <i class="fa-solid fa-circle-question text-indigo-500 mr-3"></i> Ne Yapabiliyor Bu Program?
+            </h2>
+            <p class="text-slate-400 text-sm mb-6">Aslında bu bizim okul projemiz. Tasarladığımız SQL veritabanı altyapısının yapabildiği temel işlevler ve operasyonlar şunlardır:</p>
+            
+            <ul class="space-y-4 text-xs text-slate-400 pl-2">
+                <li class="bg-slate-800/20 p-3 rounded border border-slate-800">
+                    <strong class="text-white block mb-1">Üye ve Paket Yönetimi:</strong> Yeni üye kaydı girilebiliyor, üyelere belirli geçerlilik sürelerine ve ücretlere sahip paketler atanabiliyor.
+                </li>
+                <li class="bg-slate-800/20 p-3 rounded border border-slate-800">
+                    <strong class="text-white block mb-1">Akıllı Dolap Tahsisi:</strong> Salon içindeki fiziksel dolaplar numaralarına göre üyelerle eşleştiriliyor. Yazılan Trigger mekanizması sayesinde üyelik durumu 'Aktif' olmayan kişilere dolap atanması engelleniyor.
+                </li>
+                <li class="bg-slate-800/20 p-3 rounded border border-slate-800">
+                    <strong class="text-white block mb-1">Yoklama ve Seans Takibi:</strong> Eğitmenlerin açtığı grup derslerine (kontenjan ve zorluk derecesi filtreli) üyelerin katılım durumları gün bazında tarihsel olarak saklanıyor.
+                </li>
+                <li class="bg-slate-800/20 p-3 rounded border border-slate-800">
+                    <strong class="text-white block mb-1">Vücut Gelişim İzleme:</strong> Üyelerin zaman içerisindeki kilo, boy ve yağ oranı değişimleri bağımsız ölçüm kayıtları halinde depolanarak ilerleme analizi yapılmasına imkan tanıyor.
+                </li>
+                <li class="bg-slate-800/20 p-3 rounded border border-slate-800">
+                    <strong class="text-white block mb-1">Gelişmiş Listeleme ve Filtreleme:</strong> İleri düzey SQL JOIN ve GROUP BY sorguları sayesinde salondaki toplam ciro, arızalı ekipmanlar, boş dolaplar ve ders doluluk oranları anında listelenebiliyor.
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="tablolar" class="py-16 border-t border-slate-800 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-2xl font-bold text-white mb-4 flex items-center">
+                <i class="fa-solid fa-book text-indigo-500 mr-3"></i> Veritabanı Tablo Sözlüğü (Data Dictionary)
+            </h2>
+            <p class="text-slate-400 text-xs mb-6">Sistem mimarisini oluşturan şemadaki 9 temel tablonun işlevsel rolleri:</p>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-slate-800/20 p-4 rounded-lg border border-slate-800">
+                    <h3 class="text-sm font-bold text-indigo-400 mb-1">1. Uyeler Tablosu</h3>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Sistemin merkezindedir. Üyelerin kişisel bilgilerini, iletişim datalarını ve üyelik durumlarını saklar.</p>
+                </div>
+                <div class="bg-slate-800/20 p-4 rounded-lg border border-slate-800">
+                    <h3 class="text-sm font-bold text-indigo-400 mb-1">2. Egitmenler Tablosu</h3>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Salonda görevli eğitmenlerin uzmanlık alanlarını, maaş bilgilerini và işe başlama tarihlerini tutar.</p>
+                </div>
+                <div class="bg-slate-800/20 p-4 rounded-lg border border-slate-800">
+                    <h3 class="text-sm font-bold text-indigo-400 mb-1">3. UyelikPaketleri Tablosu</h3>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Farklı süre limitlerine sahip abonelik tiplerini ve taban fiyat politikalarını kataloglar.</p>
+                </div>
+                <div class="bg-slate-800/20 p-4 rounded-lg border border-slate-800">
+                    <h3 class="text-sm font-bold text-indigo-400 mb-1">4. Dersler Tablosu</h3>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Açılan seansların içeriklerini, zorluk derecelerini ve seansı yöneten eğitmenleri eşleştirir.</p>
+                </div>
+                <div class="bg-slate-800/20 p-4 rounded-lg border border-slate-800">
+                    <h3 class="text-sm font-bold text-indigo-400 mb-1">5. KatilimKayitlari Tablosu</h3>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Üyelerin derslere devamlılığını izleyen, yoklama verilerini tutan ilişkisel kesişim tablosudur.</p>
+                </div>
+                <div class="bg-slate-800/20 p-4 rounded-lg border border-slate-800">
+                    <h3 class="text-sm font-bold text-indigo-400 mb-1">6. Odemeler Tablosu</h3>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Ciro takibi, tahsilat tarihleri, taksit sayıları ve yapılan indirim miktarlarını kaydederek mali şeffaflık sağlar.</p>
+                </div>
+                <div class="bg-slate-800/20 p-4 rounded-lg border border-slate-800">
+                    <h3 class="text-sm font-bold text-indigo-400 mb-1">7. Dolaplar Tablosu</h3>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Fiziksel dolap numaralarını ve hangi üyeye tahsis edildiklerini tutarak boş/dolu durum takibi sağlar.</p>
+                </div>
+                <div class="bg-slate-800/20 p-4 rounded-lg border border-slate-800">
+                    <h3 class="text-sm font-bold text-indigo-400 mb-1">8. VucutOlcumleri Tablosu</h3>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Üyelerin kilo, yağ ve kas oranlarını tarihsel olarak izleyerek gelişim raporlaması sunar.</p>
+                </div>
+                <div class="bg-slate-800/20 p-4 rounded-lg border border-slate-800">
+                    <h3 class="text-sm font-bold text-indigo-400 mb-1">9. Ekipmanlar Tablosu</h3>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Salonun demirbaş envanteridir. Cihaz adetlerini, bakım tarihlerini ve arıza durumlarını izler.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="mimari" class="py-16 bg-slate-900/50 border-y border-slate-800 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-2xl font-bold text-white mb-2 flex items-center">
+                <i class="fa-solid fa-sitemap text-indigo-500 mr-3"></i> Veritabanı İlişki Şeması (İnteraktif ER Yapısı)
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 text-left">
+                <div class="bg-slate-950/80 p-5 rounded-xl border border-indigo-500/30 shadow-xl relative overflow-hidden group hover:border-indigo-500/60 transition">
+                    <div class="absolute top-0 right-0 bg-indigo-600/10 px-2 py-1 text-[9px] font-bold text-indigo-400 rounded-bl border-l border-b border-indigo-500/20">PK: UyeID</div>
+                    <h4 class="font-bold text-white text-sm flex items-center border-b border-slate-800 pb-2 mb-3">
+                        <i class="fa-solid fa-user text-indigo-400 mr-2"></i> 1. Uyeler
+                    </h4>
+                    <ul class="space-y-1.5 text-[11px] text-slate-400 font-mono">
+                        <li><span class="text-indigo-400">🔑 UyeID</span> <span class="text-slate-600">[INT IDENTITY]</span></li>
+                        <li><span class="text-purple-400">🔗 PaketID</span> <span class="text-slate-600">[INT FK -> UyelikPaketleri]</span></li>
+                        <li>Ad, Soyad <span class="text-slate-600">[VARCHAR(50)]</span></li>
+                        <li>MailHesabi, TelefonNumarasi <span class="text-slate-600">[VARCHAR]</span></li>
+                        <li>KayitTarihi, DogumTarihi <span class="text-slate-600">[DATE]</span></li>
+                        <li>Cinsiyet, AcilDurumTlf, UyelikDurumu</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-950/80 p-5 rounded-xl border border-purple-500/30 shadow-xl relative overflow-hidden group hover:border-purple-500/60 transition">
+                    <div class="absolute top-0 right-0 bg-purple-600/10 px-2 py-1 text-[9px] font-bold text-purple-400 rounded-bl border-l border-b border-purple-500/20">PK: KatilimID</div>
+                    <h4 class="font-bold text-white text-sm flex items-center border-b border-slate-800 pb-2 mb-3">
+                        <i class="fa-solid fa-clipboard-user text-purple-400 mr-2"></i> 5. KatilimKayitlari
+                    </h4>
+                    <ul class="space-y-1.5 text-[11px] text-slate-400 font-mono">
+                        <li><span class="text-indigo-400">🔑 KatilimID</span> <span class="text-slate-600">[INT IDENTITY]</span></li>
+                        <li><span class="text-purple-400">🔗 UyeID</span> <span class="text-slate-600">[INT FK -> Uyeler]</span></li>
+                        <li><span class="text-purple-400">🔗 DersID</span> <span class="text-slate-600">[INT FK -> Dersler]</span></li>
+                        <li>KatilimTarihi <span class="text-slate-600">[DATE]</span></li>
+                        <li>KatilimDurumu <span class="text-slate-600">[VARCHAR(20)]</span></li>
+                    </ul>
+                </div>
+                <div class="bg-slate-950/80 p-5 rounded-xl border border-emerald-500/30 shadow-xl relative overflow-hidden group hover:border-emerald-500/60 transition">
+                    <div class="absolute top-0 right-0 bg-emerald-600/10 px-2 py-1 text-[9px] font-bold text-emerald-400 rounded-bl border-l border-b border-emerald-500/20">PK: OdemeID</div>
+                    <h4 class="font-bold text-white text-sm flex items-center border-b border-slate-800 pb-2 mb-3">
+                        <i class="fa-solid fa-credit-card text-emerald-400 mr-2"></i> 6. Odemeler
+                    </h4>
+                    <ul class="space-y-1.5 text-[11px] text-slate-400 font-mono">
+                        <li><span class="text-indigo-400">🔑 OdemeID</span> <span class="text-slate-600">[INT IDENTITY]</span></li>
+                        <li><span class="text-purple-400">🔗 UyeID</span> <span class="text-slate-600">[INT FK -> Uyeler]</span></li>
+                        <li>Miktar <span class="text-slate-600">[DECIMAL(10,2)]</span></li>
+                        <li>OdemeTarihi <span class="text-slate-600">[DATE]</span></li>
+                        <li>OdemeTipi, IndirimOrani, TaksitSayisi</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-950/80 p-5 rounded-xl border border-slate-800 shadow-xl relative overflow-hidden group hover:border-slate-700 transition">
+                    <div class="absolute top-0 right-0 bg-slate-800 px-2 py-1 text-[9px] font-bold text-slate-400 rounded-bl">PK: EgitmenID</div>
+                    <h4 class="font-bold text-white text-sm flex items-center border-b border-slate-800 pb-2 mb-3">
+                        <i class="fa-solid fa-chalkboard-user text-amber-400 mr-2"></i> 2. Egitmenler
+                    </h4>
+                    <ul class="space-y-1.5 text-[11px] text-slate-400 font-mono">
+                        <li><span class="text-indigo-400">🔑 EgitmenID</span> <span class="text-slate-600">[INT IDENTITY]</span></li>
+                        <li>Ad, Soyad <span class="text-slate-600">[VARCHAR(50)]</span></li>
+                        <li>UzmanlikAlani, TelefonNumarasi</li>
+                        <li>Maas <span class="text-slate-600">[DECIMAL(10,2)]</span></li>
+                        <li>IseBaslamaTarihi <span class="text-slate-600">[DATE]</span></li>
+                    </ul>
+                </div>
+                <div class="bg-slate-950/80 p-5 rounded-xl border border-slate-800 shadow-xl relative overflow-hidden group hover:border-slate-700 transition">
+                    <div class="absolute top-0 right-0 bg-slate-800 px-2 py-1 text-[9px] font-bold text-slate-400 rounded-bl">PK: DersID</div>
+                    <h4 class="font-bold text-white text-sm flex items-center border-b border-slate-800 pb-2 mb-3">
+                        <i class="fa-solid fa-dumbbell text-blue-400 mr-2"></i> 4. Dersler
+                    </h4>
+                    <ul class="space-y-1.5 text-[11px] text-slate-400 font-mono">
+                        <li><span class="text-indigo-400">🔑 DersID</span> <span class="text-slate-600">[INT IDENTITY]</span></li>
+                        <li><span class="text-purple-400">🔗 EgitmenID</span> <span class="text-slate-600">[INT FK -> Egitmenler]</span></li>
+                        <li>DersAdi <span class="text-slate-600">[VARCHAR(50)]</span></li>
+                        <li>DersSaati, Kontenjan, DersGunu</li>
+                        <li>ZorlukDerecesi, DersSuresiDk</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-950/80 p-5 rounded-xl border border-slate-800 shadow-xl relative overflow-hidden group hover:border-slate-700 transition">
+                    <div class="absolute top-0 right-0 bg-slate-800 px-2 py-1 text-[9px] font-bold text-slate-400 rounded-bl">PK: PaketID</div>
+                    <h4 class="font-bold text-white text-sm flex items-center border-b border-slate-800 pb-2 mb-3">
+                        <i class="fa-solid fa-box text-orange-400 mr-2"></i> 3. UyelikPaketleri
+                    </h4>
+                    <ul class="space-y-1.5 text-[11px] text-slate-400 font-mono">
+                        <li><span class="text-indigo-400">🔑 PaketID</span> <span class="text-slate-600">[INT IDENTITY]</span></li>
+                        <li>PaketAdi <span class="text-slate-600">[VARCHAR(50)]</span></li>
+                        <li>Sure, Ucret <span class="text-slate-600">[INT / DECIMAL]</span></li>
+                        <li>GecerlilikSuresiAy <span class="text-slate-600">[INT]</span></li>
+                    </ul>
+                </div>
+                <div class="bg-slate-950/80 p-5 rounded-xl border border-slate-800 shadow-xl relative overflow-hidden group hover:border-slate-700 transition">
+                    <div class="absolute top-0 right-0 bg-slate-800 px-2 py-1 text-[9px] font-bold text-slate-400 rounded-bl">PK: DolapID</div>
+                    <h4 class="font-bold text-white text-sm flex items-center border-b border-slate-800 pb-2 mb-3">
+                        <i class="fa-solid fa-door-closed text-pink-400 mr-2"></i> 7. Dolaplar
+                    </h4>
+                    <ul class="space-y-1.5 text-[11px] text-slate-400 font-mono">
+                        <li><span class="text-indigo-400">🔑 DolapID</span> <span class="text-slate-600">[INT IDENTITY]</span></li>
+                        <li>DolapNo <span class="text-slate-600">[INT]</span></li>
+                        <li><span class="text-purple-400">🔗 UyeID</span> <span class="text-slate-600">[INT FK -> Uyeler]</span></li>
+                        <li>TahsisTarihi <span class="text-slate-600">[DATE]</span></li>
+                    </ul>
+                </div>
+                <div class="bg-slate-950/80 p-5 rounded-xl border border-slate-800 shadow-xl relative overflow-hidden group hover:border-slate-700 transition">
+                    <div class="absolute top-0 right-0 bg-slate-800 px-2 py-1 text-[9px] font-bold text-slate-400 rounded-bl">PK: OlcumID</div>
+                    <h4 class="font-bold text-white text-sm flex items-center border-b border-slate-800 pb-2 mb-3">
+                        <i class="fa-solid fa-heart-pulse text-cyan-400 mr-2"></i> 8. VucutOlcumleri
+                    </h4>
+                    <ul class="space-y-1.5 text-[11px] text-slate-400 font-mono">
+                        <li><span class="text-indigo-400">🔑 OlcumID</span> <span class="text-slate-600">[INT IDENTITY]</span></li>
+                        <li><span class="text-purple-400">🔗 UyeID</span> <span class="text-slate-600">[INT FK -> Uyeler]</span></li>
+                        <li>OlcumTarihi <span class="text-slate-600">[DATE]</span></li>
+                        <li>Kilo, Boy, YagOrani <span class="text-slate-600">[DECIMAL]</span></li>
+                    </ul>
+                </div>
+                <div class="bg-slate-950/80 p-5 rounded-xl border border-slate-800 shadow-xl relative overflow-hidden group hover:border-slate-700 transition">
+                    <div class="absolute top-0 right-0 bg-slate-800 px-2 py-1 text-[9px] font-bold text-slate-400 rounded-bl">PK: EkipmanID</div>
+                    <h4 class="font-bold text-white text-sm flex items-center border-b border-slate-800 pb-2 mb-3">
+                        <i class="fa-solid fa-screwdriver-wrench text-teal-400 mr-2"></i> 9. Ekipmanlar
+                    </h4>
+                    <ul class="space-y-1.5 text-[11px] text-slate-400 font-mono">
+                        <li><span class="text-indigo-400">🔑 EkipmanID</span> <span class="text-slate-600">[INT IDENTITY]</span></li>
+                        <li>Kategori, EkipmanAdi, Marka</li>
+                        <li>Adet <span class="text-slate-600">[INT]</span></li>
+                        <li>SatinAlinmaTarihi, SonBakimTarihi</li>
+                        <li>Durum <span class="text-slate-600">[VARCHAR(20)]</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <p class="text-center text-[10px] text-slate-500 italic mb-10">
+                * Şema üzerindeki <span class="text-indigo-400 font-bold">🔑 (Primary Key)</span> birincil anahtarları, <span class="text-purple-400 font-bold">🔗 (Foreign Key)</span> ise tablolar arası ilişkisel referans bütünlüğünü temsil eder.
+            </p>
+
+            <h3 class="text-lg font-semibold text-white mb-3">Genişletilmiş Veri Yapısı (ALTER & BULK UPDATE)</h3>
+            <p class="text-slate-400 text-xs mb-4">İşletme ihtiyaçları doğrultusunda tablolara sonradan eklenen nitelikler ve veritabanındaki tüm NULL alanları mantıksal algoritmalarla temizleyen toplu güncelleme mantığı:</p>
+            
+            <div class="code-block p-4 rounded-xl text-xs overflow-x-auto border border-slate-800">
+                <pre><code><span class="text-cyan-400">-- Tablo Şemalarının Güncellenmesi</span>
+<span class="text-purple-400">ALTER TABLE</span> Uyeler <span class="text-purple-400">ADD</span> DogumTarihi <span class="text-blue-400">DATE</span>, Cinsiyet <span class="text-blue-400">VARCHAR</span>(10), AcilDurumTlf <span class="text-blue-400">VARCHAR</span>(15), UyelikDurumu <span class="text-blue-400">VARCHAR</span>(10);
+<span class="text-purple-400">ALTER TABLE</span> Egitmenler <span class="text-purple-400">ADD</span> Maas <span class="text-blue-400">DECIMAL</span>(10,2), IseBaslamaTarihi <span class="text-blue-400">DATE</span>;
+
+<span class="text-cyan-400">-- Tüm Sistemin Boş Alanlarını Toplu Algoritma ile Doldurma</span>
+<span class="text-purple-400">UPDATE</span> Uyeler <span class="text-purple-400">SET </span>
+    UyelikDurumu = <span class="text-green-400">'Aktif'</span>,
+    Cinsiyet = <span class="text-purple-400">CASE WHEN</span> UyeID % 2 = 0 <span class="text-purple-400">THEN</span> <span class="text-green-400">'Kadın'</span> <span class="text-purple-400">ELSE</span> <span class="text-green-400">'Erkek'</span> <span class="text-purple-400">END</span>,
+    DogumTarihi = <span class="text-orange-400">DATEADD</span>(YEAR, -20 - (UyeID % 15), <span class="text-orange-400">GETDATE</span>());</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <section id="timeline" class="py-16 px-6 max-w-5xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-2 flex items-center">
+            <i class="fa-solid fa-calendar-days text-indigo-500 mr-3"></i> Proje Zaman Planı & Görev Dağılımı
+        </h2>
+        <p class="text-slate-400 mb-8 text-xs">Proje boyunca gerçekleştirilen tüm veritabanı operasyonları ve ekip üyelerinin gerçek zamanlı sorumluluk takvimi.</p>
+
+        <div class="relative border-l border-slate-700 ml-4 space-y-6">
+            
+            <div class="relative pl-6">
+                <div class="absolute -left-[5px] top-1 bg-indigo-600 h-2.5 w-2.5 rounded-full"></div>
+                <div class="bg-slate-800/30 p-3 rounded-lg border border-slate-800/60 text-xs">
+                    <span class="font-mono text-indigo-400">25.03.2026</span>
+                    <h4 class="font-semibold text-white mt-0.5">ER Diyagramı Çizildi ve Tablo Yapısı Tasarlandı.</h4>
+                    <div class="mt-1 flex flex-wrap gap-1">
+                        <span class="px-1.5 py-0.5 bg-indigo-500/10 text-indigo-400 rounded border border-indigo-500/20">Ahmet Bayrakoğlu (ER Diyagramı)</span>
+                        <span class="px-1.5 py-0.5 bg-purple-500/10 text-purple-400 rounded border border-purple-500/20">Yusuf Çolhak (Tablo Yapısı)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative pl-6">
+                <div class="absolute -left-[5px] top-1 bg-purple-600 h-2.5 w-2.5 rounded-full"></div>
+                <div class="bg-slate-800/30 p-3 rounded-lg border border-slate-800/60 text-xs">
+                    <span class="font-mono text-purple-400">04.04.2026</span>
+                    <h4 class="font-semibold text-white mt-0.5">Egitmenler ve UyelikPaketleri Tabloları Oluşturuldu.</h4>
+                    <p class="text-slate-400 text-[11px] mt-0.5">CREATE TABLE komutları çalıştırıldı; INSERT scriptleri ile eğitmen kayıtları ve paket fiyat tanımlamaları yapıldı.</p>
+                    <div class="mt-1"><span class="px-1.5 py-0.5 bg-purple-500/10 text-purple-400 rounded border border-purple-500/20">Yusuf Çolhak</span></div>
+                </div>
+            </div>
+
+            <div class="relative pl-6">
+                <div class="absolute -left-[5px] top-1 bg-emerald-600 h-2.5 w-2.5 rounded-full"></div>
+                <div class="bg-slate-800/30 p-3 rounded-lg border border-slate-800/60 text-xs">
+                    <span class="font-mono text-emerald-400">07.04.2026</span>
+                    <h4 class="font-semibold text-white mt-0.5">Dersler ve Uyeler Tabloları Tamamlandı.</h4>
+                    <p class="text-slate-400 text-[11px] mt-0.5">CREATE TABLE mimarisi kuruldu; INSERT komutları ile sisteme başlangıç üyeleri ve mevcut seans programları atandı.</p>
+                    <div class="mt-1"><span class="px-1.5 py-0.5 bg-emerald-500/10 text-emerald-400 rounded border border-emerald-500/20">Bahadır Türkmen</span></div>
+                </div>
+            </div>
+
+            <div class="relative pl-6">
+                <div class="absolute -left-[5px] top-1 bg-indigo-600 h-2.5 w-2.5 rounded-full"></div>
+                <div class="bg-slate-800/30 p-3 rounded-lg border border-slate-800/60 text-xs">
+                    <span class="font-mono text-indigo-400">08.04.2026</span>
+                    <h4 class="font-semibold text-white mt-0.5">KatilimKayitlari ve Odemeler Tabloları Üretildi.</h4>
+                    <p class="text-slate-400 text-[11px] mt-0.5">İlişkisel kesişim tabloları CREATE TABLE ile ayağa kaldırıldı, test verileri INSERT edilerek finansal akış ve yoklama simüle edildi.</p>
+                    <div class="mt-1"><span class="px-1.5 py-0.5 bg-indigo-500/10 text-indigo-400 rounded border border-indigo-500/20">Ahmet Bayrakoğlu</span></div>
+                </div>
+            </div>
+
+            <div class="relative pl-6">
+                <div class="absolute -left-[5px] top-1 bg-indigo-600 h-2.5 w-2.5 rounded-full"></div>
+                <div class="bg-slate-800/30 p-3 rounded-lg border border-slate-800/60 text-xs">
+                    <span class="font-mono text-indigo-400">07.05.2026</span>
+                    <h4 class="font-semibold text-white mt-0.5">1 - 20 Arası Temel SQL Sorguları Hazırlandı.</h4>
+                    <p class="text-slate-400 text-[11px] mt-0.5">Seçme, filtreleme, sıralama ve mantıksal operatörleri içeren ilk 20 temel senaryo sorgusu yazılıp (.sql) olarak kaydedildi.</p>
+                    <div class="mt-1"><span class="px-1.5 py-0.5 bg-indigo-500/10 text-indigo-400 rounded border border-indigo-500/20">Ahmet Bayrakoğlu</span></div>
+                </div>
+            </div>
+
+            <div class="relative pl-6">
+                <div class="absolute -left-[5px] top-1 bg-purple-600 h-2.5 w-2.5 rounded-full"></div>
+                <div class="bg-slate-800/30 p-3 rounded-lg border border-slate-800/60 text-xs">
+                    <span class="font-mono text-purple-400">09.05.2026</span>
+                    <h4 class="font-semibold text-white mt-0.5">21 - 40 Arası İlişkisel Sorgular (JOIN) Geliştirildi.</h4>
+                    <p class="text-slate-400 text-[11px] mt-0.5">INNER JOIN, LEFT JOIN ve birden fazla tabloyu birbirine bağlayan analitik sorgu bloğu tamamlanıp sisteme işlendi.</p>
+                    <div class="mt-1"><span class="px-1.5 py-0.5 bg-purple-500/10 text-purple-400 rounded border border-purple-500/20">Yusuf Çolhak</span></div>
+                </div>
+            </div>
+
+            <div class="relative pl-6">
+                <div class="absolute -left-[5px] top-1 bg-purple-600 h-2.5 w-2.5 rounded-full"></div>
+                <div class="bg-slate-800/30 p-3 rounded-lg border border-slate-800/60 text-xs">
+                    <span class="font-mono text-purple-400">11.05.2026</span>
+                    <h4 class="font-semibold text-white mt-0.5">Fiziksel Veritabanı Diyagramı Çıkarıldı.</h4>
+                    <p class="text-slate-400 text-[11px] mt-0.5">SQL Server Management Studio (SSMS) Database Diagrams aracı kullanılarak ilişkisel harita fiziksel olarak üretildi.</p>
+                    <div class="mt-1"><span class="px-1.5 py-0.5 bg-purple-500/10 text-purple-400 rounded border border-purple-500/20">Yusuf Çolhak</span></div>
+                </div>
+            </div>
+
+            <div class="relative pl-6">
+                <div class="absolute -left-[5px] top-1 bg-slate-500 h-2.5 w-2.5 rounded-full"></div>
+                <div class="bg-slate-800/30 p-3 rounded-lg border border-slate-700 text-xs space-y-3">
+                    <span class="font-mono text-slate-400 block">31.05.2026 (Yoğun Geliştirme Fazı)</span>
+                    <div class="border-l-2 border-emerald-500 pl-3">
+                        <h5 class="font-semibold text-white">41 - 74 Arası İleri Düzey Sorgular Kodlandı.</h5>
+                        <p class="text-[11px] text-slate-400">GROUP BY, HAVING ve karmaşık alt sorguları (Subquery) içeren veri analitiği bölümü başarıyla tamamlandı.</p>
+                        <span class="text-[10px] text-emerald-400 font-medium">Sorumlu: Bahadır Türkmen</span>
+                    </div>
+                    <div class="border-l-2 border-emerald-500 pl-3">
+                        <h5 class="font-semibold text-white">Modüler Genişleme (Dolaplar, Ekipmanlar, Vücut Ölçümleri) Tabloları Oluşturuldu.</h5>
+                        <p class="text-[11px] text-slate-400">CREATE TABLE ile 3 yeni tablo sisteme eklendi, INSERT komutları ile tüm demirbaş, ölçüm ve kilit verileri entegre edildi.</p>
+                        <span class="text-[10px] text-emerald-400 font-medium">Sorumlu: Bahadır Türkmen</span>
+                    </div>
+                    <div class="border-l-2 border-purple-500 pl-3">
+                        <h5 class="font-semibold text-white">Mevcut Tablolara Yeni Bölümler ve Veriler Eklendi.</h5>
+                        <p class="text-[11px] text-slate-400">Dersler, Uyeler, Egitmenler, UyelikPaketleri, Odemeler ve KatilimKayitlari tablolarına kurumsal genişleme amacıyla yeni kolonlar eklenerek içleri taze datalarla dolduruldu.</p>
+                        <span class="text-[10px] text-purple-400 font-medium">Sorumlu: Yusuf Çolhak</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative pl-6">
+                <div class="absolute -left-[5px] top-1 bg-indigo-500 h-2.5 w-2.5 rounded-full"></div>
+                <div class="bg-slate-800/40 p-4 rounded-lg border border-indigo-500/20 text-xs space-y-3">
+                    <span class="font-mono text-indigo-400 block font-bold"><i class="fa-solid fa-clock mr-1"></i> 02.06.2026 (Final ve Optimizasyon Günü)</span>
+                    <div class="border-l-2 border-indigo-500 pl-3">
+                        <h5 class="font-semibold text-white">Dolaplar Tablosu Spesifik Sorguları Yazıldı.</h5>
+                        <p class="text-[11px] text-slate-400">Dolap doluluk oranları ve boş/tahsisli dolap analiz rapor çıktıları oluşturulup (.sql) olarak kaydedildi.</p>
+                        <span class="text-[10px] text-indigo-400 font-medium">Sorumlu: Ahmet Bayrakoğlu</span>
+                    </div>
+                    <div class="border-l-2 border-purple-500 pl-3">
+                        <h5 class="font-semibold text-white">Ekipmanlar Tablosu Analitik Sorguları Kodlandı.</h5>
+                        <p class="text-[11px] text-slate-400">Bakım zamanı gelen demirbaşlar, arızalı kondisyon cihazları ve toplam stok adetlerini listeleyen sorgular tamamlandı.</p>
+                        <span class="text-[10px] text-purple-400 font-medium">Sorumlu: Yusuf Çolhak</span>
+                    </div>
+                    <div class="border-l-2 border-emerald-500 pl-3">
+                        <h5 class="font-semibold text-white">Vücut Ölçümleri Tablosu İlerleme Sorguları Çıkarıldı.</h5>
+                        <p class="text-[11px] text-slate-400">Üyelerin tarihsel kütle ve yağ endeksi değişim trendlerini, kilo ortalamalarını filtreleyen scriptler hazırlandı.</p>
+                        <span class="text-[10px] text-emerald-400 font-medium">Sorumlu: Bahadır Türkmen</span>
+                    </div>
+                    <div class="border-l-2 border-indigo-500 pl-3">
+                        <h5 class="font-semibold text-white">Veri Güvenlik Otomasyonu (Trigger) Tasarlandı.</h5>
+                        <p class="text-[11px] text-slate-400">Pasif durumda olan üyelerin sisteme dolap kaydı almasını engellemeye yönelik transactional veri tutarlılık tetiği kodlandı ve kaydedildi.</p>
+                        <span class="text-[10px] text-indigo-400 font-medium">Sorumlu: Ahmet Bayrakoğlu</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+
+    <section id="ekip" class="py-16 px-6 max-w-4xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-2 text-center flex justify-center items-center">
+            <i class="fa-solid fa-users text-indigo-500 mr-3"></i> Projede Emeği Geçenler
+        </h2>
+        <p class="text-slate-400 text-xs text-center mb-10">ABYGYM Veritabanı Yönetim Sistemi projesini baştan sona tasarlayan ve kodlayan proje ekibi:</p>
+        
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-slate-800/30 p-6 rounded-xl border border-slate-800 text-center">
+                <div class="h-12 w-12 bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 rounded-full flex justify-center items-center text-lg font-bold mx-auto mb-3">AB</div>
+                <h3 class="font-bold text-white text-sm">Ahmet Bayrakoğlu</h3>
+                <p class="text-[11px] text-slate-500 mt-1">Veritabanı Mimarı / Trigger & Prosedür Geliştirici</p>
+            </div>
+            <div class="bg-slate-800/30 p-6 rounded-xl border border-slate-800 text-center">
+                <div class="h-12 w-12 bg-purple-600/20 text-purple-400 border border-purple-500/30 rounded-full flex justify-center items-center text-lg font-bold mx-auto mb-3">YÇ</div>
+                <h3 class="font-bold text-white text-sm">Yusuf Çolhak</h3>
+                <p class="text-[11px] text-slate-500 mt-1">Veri Analisti / ER Şeması & Dokümantasyon Sorumlusu</p>
+            </div>
+            <div class="bg-slate-800/30 p-6 rounded-xl border border-slate-800 text-center">
+                <div class="h-12 w-12 bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 rounded-full flex justify-center items-center text-lg font-bold mx-auto mb-3">BT</div>
+                <h3 class="font-bold text-white text-sm">Bahadır Türkmen</h3>
+                <p class="text-[11px] text-slate-500 mt-1">Sorgu Optimizasyonu / Envanter & Ölçüm Modülleri</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== YENİ GITHUB BÖLÜMÜ ===================== -->
+    <section id="github" class="py-20 px-6 border-t border-slate-800 relative overflow-hidden">
+        <!-- Arkaplan ışıma efekti -->
+        <div class="corner-decoration absolute -top-20 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full pointer-events-none"></div>
+        
+        <div class="max-w-4xl mx-auto relative z-10">
+
+            <!-- Üst rozet -->
+            <div class="flex justify-center mb-6">
+                <span class="github-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-semibold tracking-widest uppercase border border-indigo-500/30 bg-indigo-500/5 text-indigo-400">
+                    <i class="fa-brands fa-github text-sm"></i>
+                    Açık Kaynak · Kaynak Kodlar Mevcut
+                </span>
+            </div>
+
+            <!-- Başlık -->
+            <h2 class="text-center text-3xl md:text-4xl font-extrabold text-white mb-3 tracking-tight">
+                Projenin Tüm Detayları<br>
+                <span class="github-shimmer">GitHub'da Paylaşıldı</span>
+            </h2>
+            <p class="text-center text-slate-400 text-sm max-w-xl mx-auto mb-10">
+                SQL scriptleri, ER diyagramları, tablo oluşturma komutları, trigger ve prosedür dosyaları dahil projeye ait <strong class="text-slate-300">tüm kaynak kodlar</strong> ve belgeler GitHub deposunda eksiksiz biçimde yayımlanmıştır.
+            </p>
+
+            <!-- Ana GitHub kart kutusu -->
+            <div class="github-card bg-[#0d1117] rounded-2xl border border-slate-700/60 p-6 md:p-8 shadow-2xl max-w-2xl mx-auto">
+
+                <!-- Repo başlık satırı -->
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="github-icon-ring relative flex-shrink-0">
+                        <div class="h-14 w-14 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center shadow-lg">
+                            <i class="fa-brands fa-github text-2xl text-white"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-[11px] text-slate-500 font-mono">github.com / yusufcolhak</p>
+                        <h3 class="text-white font-bold text-lg leading-tight">Proje</h3>
+                        <p class="text-[11px] text-slate-400 mt-0.5">ABYGYM SQL Veritabanı Yönetim Sistemi</p>
+                    </div>
+                    <div class="ml-auto hidden md:flex flex-col items-end gap-1">
+                        <span class="inline-flex items-center gap-1.5 text-[10px] text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 px-2 py-0.5 rounded-full font-medium">
+                            <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span> Public
+                        </span>
+                        <span class="text-[10px] text-slate-500">MS SQL Server</span>
+                    </div>
+                </div>
+
+                <!-- İçerik istatistik çipleri -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6">
+                    <div class="stat-chip rounded-lg px-3 py-2.5 text-center">
+                        <div class="text-lg font-bold text-indigo-400">9</div>
+                        <div class="text-[10px] text-slate-500 mt-0.5">Tablo</div>
+                    </div>
+                    <div class="stat-chip rounded-lg px-3 py-2.5 text-center">
+                        <div class="text-lg font-bold text-purple-400">74+</div>
+                        <div class="text-[10px] text-slate-500 mt-0.5">SQL Sorgusu</div>
+                    </div>
+                    <div class="stat-chip rounded-lg px-3 py-2.5 text-center">
+                        <div class="text-lg font-bold text-emerald-400">3</div>
+                        <div class="text-[10px] text-slate-500 mt-0.5">Geliştirici</div>
+                    </div>
+                    <div class="stat-chip rounded-lg px-3 py-2.5 text-center">
+                        <div class="text-lg font-bold text-amber-400">2026</div>
+                        <div class="text-[10px] text-slate-500 mt-0.5">YBS Ödevi</div>
+                    </div>
+                </div>
+
+                <!-- Depoda ne var listesi -->
+                <div class="grid md:grid-cols-2 gap-2 mb-6 text-[11px] text-slate-400">
+                    <div class="flex items-center gap-2 bg-slate-800/40 rounded-lg px-3 py-2 border border-slate-700/40">
+                        <i class="fa-solid fa-file-code text-indigo-400 w-4 text-center"></i>
+                        <span>CREATE TABLE & INSERT scriptleri</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-slate-800/40 rounded-lg px-3 py-2 border border-slate-700/40">
+                        <i class="fa-solid fa-bolt text-amber-400 w-4 text-center"></i>
+                        <span>Trigger ve Stored Procedure dosyaları</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-slate-800/40 rounded-lg px-3 py-2 border border-slate-700/40">
+                        <i class="fa-solid fa-diagram-project text-purple-400 w-4 text-center"></i>
+                        <span>ER Diyagramı ve fiziksel şema</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-slate-800/40 rounded-lg px-3 py-2 border border-slate-700/40">
+                        <i class="fa-solid fa-magnifying-glass-chart text-emerald-400 w-4 text-center"></i>
+                        <span>74+ analitik sorgu koleksiyonu</span>
+                    </div>
+                </div>
+
+                <!-- CTA buton -->
+                <a href="https://github.com/yusufcolhak/Proje" target="_blank" rel="noopener noreferrer"
+                   class="github-link-btn flex items-center justify-center gap-3 w-full py-3.5 rounded-xl text-sm font-semibold text-white">
+                    <i class="fa-brands fa-github text-lg"></i>
+                    <span>Kaynak Kodu İncele</span>
+                    <span class="font-mono text-xs text-indigo-300 bg-indigo-900/40 px-2 py-0.5 rounded border border-indigo-500/20">github.com/yusufcolhak/Proje</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 ml-auto"></i>
+                </a>
+            </div>
+
+        </div>
+    </section>
+    <!-- ===================== GITHUB BÖLÜMÜ SONU ===================== -->
+
+    <section class="py-14 bg-[#0b0f19] border-t border-slate-800 px-6 text-center">
+        <div class="max-w-3xl mx-auto">
+            <i class="fa-solid fa-cloud-arrow-up text-3xl text-purple-500 mb-3 block"></i>
+            <h2 class="text-xl font-bold text-white mb-3">Gelecek Vizyonu ve Mimari Entegrasyon</h2>
+            <p class="text-slate-400 text-xs leading-relaxed max-w-2xl mx-auto mb-4">
+                Geliştirilen bu ilişkisel şema, bir sonraki aşamada web servis (Web API) katmanı ve bulut geçiş senaryoları ile entegre edilmeye tamamen hazır ve uyumlu tasarlanmıştır.
+            </p>
+            <div class="inline-flex space-x-2 text-[10px] font-mono text-slate-500 bg-slate-950 px-3 py-1.5 rounded-full border border-slate-800">
+                <span>RDBMS: MS SQL Server</span>
+                <span>•</span>
+                <span>Compliance</span>
+                <span>•</span>
+                <span>ABYGYM Team 2026</span>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-6 text-center text-[11px] text-slate-600 border-t border-slate-950 bg-[#070a12]">
+        <p>© 2026 ABYGYM Yönetim Bilişim Sistemleri (YBS) Veritabanı Proje Ödevi</p>
+    </footer>
+
+</body>
+</html>
